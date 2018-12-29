@@ -4,34 +4,74 @@ using System.Collections.Generic;
 namespace DesignPattern.Build
 {
     /// <summary>
-    /// 构建模式
+    /// 抽象建造者 --- 构建模式
     /// </summary>
-    public class Builder1
+    public abstract class BuilderFactory
     {
-        private Food food = new Food();
+        public abstract void BuilderA();
 
-        public void BuilderA()
-        {
-            food.Add("A");
-        }
+        public abstract void BuilderB();
 
-        public void BuilderB()
-        {
-            food.Add("B");
-        }
+        public abstract Food GetFood();
+    }
 
-        public Food GetFood()
+    /// <summary>
+    ///  指挥创建过程类
+    /// </summary>
+    public class Director
+    {
+        public void Construct(BuilderFactory builder)
         {
-            return food;
-        }
-
-        public void Construct()
-        {
-            BuilderA();
-            BuilderB();
+            builder.BuilderA();
+            builder.BuilderB();
         }
     }
 
+    /// <summary>
+    /// 具体创建者1
+    /// </summary>
+    public class Builder1 : BuilderFactory
+    {
+        Food food = new Food();
+
+        public override void BuilderA()
+        {
+            food.Add("A1");
+        }
+        public override void BuilderB()
+        {
+            food.Add("B1");
+        }
+        public override Food GetFood()
+        {
+            return food;
+        }
+    }
+
+    /// <summary>
+    ///  具体创建者2
+    /// </summary>
+    public class Builder2 : BuilderFactory
+    {
+        Food food = new Food();
+
+        public override void BuilderA()
+        {
+            food.Add("A2");
+        }
+        public override void BuilderB()
+        {
+            food.Add("B2");
+        }
+        public override Food GetFood()
+        {
+            return food;
+        }
+    }
+
+    /// <summary>
+    /// 资源类
+    /// </summary>
     public class Food
     {
         private IList<string> list = new List<string>();
@@ -58,10 +98,11 @@ namespace DesignPattern.Build
         [TestMethod]
         public void TestMethod1()
         {
-            Builder1 builder = new Builder1();
-            builder.Construct();
-            Food food = builder.GetFood();
-            string result = food.Show();
+            Director director = new Director();
+            BuilderFactory builder1 = new Builder1();
+            director.Construct(builder1);
+            Food food1 = builder1.GetFood();
+            food1.Show();
         }
     }
 }
