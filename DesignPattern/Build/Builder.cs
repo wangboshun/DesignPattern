@@ -28,6 +28,29 @@ namespace DesignPattern.Build
     }
 
     /// <summary>
+    /// 资源类
+    /// </summary>
+    public class Food
+    {
+        private IList<string> list = new List<string>();
+
+        public void Add(string str)
+        {
+            list.Add(str);
+        }
+
+        public string Show()
+        {
+            string str = "";
+            foreach (var item in list)
+            {
+                str += $" 产品({item}) ";
+            }
+            return str;
+        }
+    }
+
+    /// <summary>
     /// 具体创建者1
     /// </summary>
     public class Builder1 : BuilderFactory
@@ -68,30 +91,7 @@ namespace DesignPattern.Build
             return food;
         }
     }
-
-    /// <summary>
-    /// 资源类
-    /// </summary>
-    public class Food
-    {
-        private IList<string> list = new List<string>();
-
-        public void Add(string str)
-        {
-            list.Add(str);
-        }
-
-        public string Show()
-        {
-            string str = "";
-            foreach (var item in list)
-            {
-                str += $" 产品({item}) ";
-            }
-            return str;
-        }
-    }
-
+       
     [TestClass]
     public class BuilderTest
     {
